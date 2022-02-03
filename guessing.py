@@ -1,5 +1,4 @@
 import os
-import string
 
 def printBoards(allBoards:list, allGuesses:list, wrongLetters:list): # this one is used for printing the outcomes
     a = 0
