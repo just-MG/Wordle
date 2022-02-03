@@ -1,8 +1,7 @@
-from operator import index
-from turtle import clear
 import os
+import string
 
-def printBoards(allBoards, allGuesses, wrongLetters): # this one is used for printing the outcomes
+def printBoards(allBoards:list, allGuesses:list, wrongLetters:list): # this one is used for printing the outcomes
     a = 0
     for currBoard in allBoards: # looping through each of the answers 
         a += 1
@@ -18,7 +17,7 @@ def printBoards(allBoards, allGuesses, wrongLetters): # this one is used for pri
         print(str(a) + ": " + str(list(map(lambda x: f"{x} " , list(allGuesses[a-1]))))) #just wanted to add a space :(
         # printing the squares
         print(str(a) + ": " + str(tmp))
-    print("wrong letters: " + str(wrongLetters))
+    print("wrong letters: " + str(sorted(wrongLetters)))
 
 def checkIfWon(currBoard):
     # setting the control sum
@@ -32,7 +31,37 @@ def checkIfWon(currBoard):
     else:
         return 0 # return lose
 
-def guessing(word, words):
+def prompting(i:int, words:list, allBoards:list, allGuesses:list, wrongLetters:list):
+    ex = 0
+    guess = input("-"*10 + "\n" + f"\nGuess {i + 1}. word: ")
+    # checking if the word exists:
+    if guess in words:
+        ex = 1
+    # looping until the word inputted exists:
+    while(ex != 1):
+        # looping until the word inputted has five letters:
+        while (len(guess) != 5 ):
+            print("the word wrong length")
+            os.system("clear")
+            print(f"The word {guess} is wrong length")
+            print("-" * 10 + "\n")
+            printBoards(allBoards, allGuesses, wrongLetters)
+            print("\n")
+            guess = input(f"Guess {i + 1}. word: ")
+        # checking if exists:
+        if guess in words:
+            ex = 1
+        else:
+            print("the word doesn't exist")
+            os.system("clear")
+            print(f"The word {guess} is not on the list")
+            print("-" * 10 + "\n")
+            printBoards(allBoards, allGuesses, wrongLetters)
+            print("\n")
+            guess = input(f"Guess {i + 1}. word: ")
+    return guess
+
+def guessing(word:str, words:list):
     # lists in which all the boards will be stored and all the guesses
     allBoards = []
     allGuesses = []
@@ -41,32 +70,8 @@ def guessing(word, words):
     for i in range(6):
         # the currBoard has 5 positions, of which all can be either a 0 - no match, a 1 - the letter is in the word or a 2 - the letter is on the exact this place
         currBoard = [0,0,0,0,0]
-        ex = 0
         # inputting the guess
-        guess = input("\n" + "-"*10 + f"\nGuess {i + 1}. word: ")
-        # checking if the word exists:
-        if guess in words:
-            ex = 1
-        # looping until the word inputted exists:
-        while(ex != 1):
-            # looping until the word inputted has five letters:
-            while (len(guess) != 5 ):
-                os.system("clear")
-                print(f"The word {guess} is wrong length")
-                print("-" * 10 + "\n")
-                printBoards(allBoards, allGuesses, wrongLetters)
-                print("\n")
-                guess = input(f"Guess {i + 1}. word: ")
-            # checking if exists:
-            if guess in words:
-                ex = 1
-            else:
-                os.system("clear")
-                print(f"The word {guess} is not on the list")
-                print("-" * 10 + "\n")
-                printBoards(allBoards, allGuesses, wrongLetters)
-                print("\n")
-                guess = input(f"Guess {i + 1}. word: ")
+        guess = prompting(i, words, allBoards, allGuesses, wrongLetters)
         # appending the current guess to the list of all guesses
         allGuesses.append(guess)
         # checking all the letters in the guess with the drawn word:
@@ -94,12 +99,12 @@ def guessing(word, words):
             # if the guessed letter is not in the word and has not yet made its' way on the list of wrong letters then we add it there
             if (guess[position] not in word) and (guess[position] not in wrongLetters):
                     wrongLetters.append(guess[position])
-        
+
         # appending the current board to the list of all boards
         allBoards.append(currBoard)
         # print all the boards along with the guesses
         os.system("clear")
-        print("Right!\n" + "-" * 10 + "\n")
+        print("Board:\n" + "-" * 10 + "\n")
         printBoards(allBoards, allGuesses, wrongLetters)
         # check if the game has been won; if so return how many guesses it took
         if checkIfWon(currBoard) == 1:
