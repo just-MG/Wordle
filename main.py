@@ -1,5 +1,6 @@
 import wordGeneration as wd
 import guessing as g
+import os
 
 def main():
     #setting the variables:
@@ -8,6 +9,7 @@ def main():
     count = 0
     # looping so the player can play as many times as they want to
     while plya:
+        os.system("clear")
         count += 1
         # Generating words using the other files
         word = wd.generateWord()

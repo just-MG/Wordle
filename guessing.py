@@ -1,5 +1,6 @@
 from operator import index
-
+from turtle import clear
+import os
 
 def printBoards(allBoards, allGuesses, wrongLetters): # this one is used for printing the outcomes
     a = 0
@@ -42,7 +43,7 @@ def guessing(word, words):
         currBoard = [0,0,0,0,0]
         ex = 0
         # inputting the guess
-        guess = input("\n" + "-"*5 + f"\nGuess {i + 1}. word: ")
+        guess = input("\n" + "-"*10 + f"\nGuess {i + 1}. word: ")
         # checking if the word exists:
         if guess in words:
             ex = 1
@@ -50,15 +51,21 @@ def guessing(word, words):
         while(ex != 1):
             # looping until the word inputted has five letters:
             while (len(guess) != 5 ):
-                print("word is wrong length")
-                print("-" * 5 + "\n")
+                os.system("clear")
+                print(f"The word {guess} is wrong length")
+                print("-" * 10 + "\n")
+                printBoards(allBoards, allGuesses, wrongLetters)
+                print("\n")
                 guess = input(f"Guess {i + 1}. word: ")
             # checking if exists:
             if guess in words:
                 ex = 1
             else:
-                print("word does not exist")
-                print("-" * 5 + "\n")
+                os.system("clear")
+                print(f"The word {guess} is not on the list")
+                print("-" * 10 + "\n")
+                printBoards(allBoards, allGuesses, wrongLetters)
+                print("\n")
                 guess = input(f"Guess {i + 1}. word: ")
         # appending the current guess to the list of all guesses
         allGuesses.append(guess)
@@ -91,6 +98,8 @@ def guessing(word, words):
         # appending the current board to the list of all boards
         allBoards.append(currBoard)
         # print all the boards along with the guesses
+        os.system("clear")
+        print("Right!\n" + "-" * 10 + "\n")
         printBoards(allBoards, allGuesses, wrongLetters)
         # check if the game has been won; if so return how many guesses it took
         if checkIfWon(currBoard) == 1:
