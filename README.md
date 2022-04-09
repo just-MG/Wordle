@@ -4,10 +4,10 @@ Wordle is a popular guessing game that requires you to guess a 5-letter word eac
 
 ## How to play?
 
-In order to play the game you need to download all the python files into one folder. Then, use terminal to switch to the folder in which the files are located and run the main file; namely use:
+In order to play the game you need to download all the python files into one folder. Then, use cd to switch to the folder in which the files are located and run the main file- namely use:
 
 ```zsh
 python3 main.py
 ```
 
-Now all you need to do is input your guesses, and the programme will output the board, just like in the regular version of the game. At the end you get to choose whether you want to continue playing or just end the session.
+Now all you need to do is input your guesses, and the program will output the board, just like in the regular version of the game. At the end you get to choose whether you want to continue playing or just end the session.
